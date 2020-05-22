@@ -6,6 +6,8 @@ import Control.Monad
 import Data.Function
 import Data.Either
 import Data.Map (Map)
+import Data.List
+import System.IO
 import qualified Data.Map as Map
 
 data Parser a = Parser { runParse :: String -> [(a, String)] } deriving (Functor)
@@ -90,7 +92,12 @@ floating = read <$> do
 -- ========================================================================== --
 
 data Op = Plus | Times | Minus | Div deriving (Show, Eq, Ord, Enum)
+data PrimType = PInt | PFloat | PString | PBool deriving (Show, Eq, Ord, Enum)
+data Primitive a = Primitive a PrimType deriving (Eq, Ord)
+instance Show a => Show (Primitive a) where show (Primitive a t) = show a
+
 data Expr = Number Double | Var String | BinOp Op Expr Expr deriving (Eq, Ord)
+
 instance Show Expr where
     show (Number x)     = show x
     show (Var x)        = x
@@ -112,7 +119,7 @@ chainOp arg op = do
     rest <- many $ do o <- op
                       a <- arg
                       pure $ (flip $ BinOp o) a 
-    pure $ foldl (&) first_arg rest
+    pure $ foldl' (&) first_arg rest
 
 _token :: Parser String
 _token = do
@@ -186,7 +193,7 @@ interpStatement table (Set x expr) = do
 data InputLine = Calculation Expr | State Statement deriving (Eq, Ord)
 instance Show InputLine where
     show (Calculation x) = show x
-    show (State (Set v r)) = v <> " = ..."
+    show (State (Set v r)) = v <> " = "
 input_line = State <$> statement <|> Calculation <$> expr
 parse_input = process_parse . runParse input_line
 
@@ -196,7 +203,7 @@ new_table table _ = pure table
 
 calculate :: SymbolTable -> InputLine -> Result String
 calculate table (Calculation expr) = show <$> interpExpr table expr
-calculate table x = pure $ show x
+calculate table (State (Set v r)) = ((v <> " = ") <>) <$> show <$> interpExpr table r
 
 tuple_seq ((Right a), (Right b)) = Right (a, b)
 tuple_seq ((Left a), _) = Left a
@@ -210,7 +217,8 @@ _loop table line = do
 loop :: SymbolTable -> IO ()
 loop table = do
     putStr "> "
-    x <- getLine
+    hFlush stdout
+    x <- filter (not . flip elem " \t\r\n") <$> getLine
     let new_vals = _loop table x
     case new_vals of
       (Left e) -> print e >> loop table
