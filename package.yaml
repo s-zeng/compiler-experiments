@@ -1,0 +1,60 @@
+name:                sy
+version:             0.1.0.0
+github:              "s-zeng/sy"
+license:             AGPL-3
+author:              "Simon Zeng"
+maintainer:          "constact@simonzeng.com"
+copyright:           "2020 Simon Zeng"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+synopsis:            A programming language
+category:            Language
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/s-zeng/sy#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- containers 
+- markdown-unlit
+
+library:
+  source-dirs: src
+  ghc-options:
+  - -Wall
+  - -Werror
+  - -pgmL markdown-unlit
+
+executables:
+  sy-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -Wall
+    - -Werror
+    - -pgmL markdown-unlit
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - sy
+
+tests:
+  sy-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -Wall
+    - -Werror
+    - -pgmL markdown-unlit
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - sy

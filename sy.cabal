@@ -1,0 +1,71 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 51dd38d65261bdceef8fd94891fdbb968f18e47ca3c081488b549d428a2e4beb
+
+name:           sy
+version:        0.1.0.0
+synopsis:       A programming language
+description:    Please see the README on GitHub at <https://github.com/s-zeng/sy#readme>
+category:       Language
+homepage:       https://github.com/s-zeng/sy#readme
+bug-reports:    https://github.com/s-zeng/sy/issues
+author:         Simon Zeng
+maintainer:     constact@simonzeng.com
+copyright:      2020 Simon Zeng
+license:        AGPL-3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/s-zeng/sy
+
+library
+  exposed-modules:
+      Sy.Parser.Core
+  other-modules:
+      Paths_sy
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -Werror -pgmL markdown-unlit
+  build-depends:
+      base >=4.7 && <5
+    , containers
+    , markdown-unlit
+  default-language: Haskell2010
+
+executable sy-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_sy
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -Werror -pgmL markdown-unlit -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , containers
+    , markdown-unlit
+    , sy
+  default-language: Haskell2010
+
+test-suite sy-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_sy
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -Werror -pgmL markdown-unlit -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , containers
+    , markdown-unlit
+    , sy
+  default-language: Haskell2010
