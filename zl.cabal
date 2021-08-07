@@ -4,17 +4,17 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 51dd38d65261bdceef8fd94891fdbb968f18e47ca3c081488b549d428a2e4beb
+-- hash: c6cadd0e6e8f96d4c3bf7f3e6fee23c8b2ccfb3ba47e95d46996e9b3901ce27a
 
-name:           sy
+name:           zl
 version:        0.1.0.0
 synopsis:       A programming language
-description:    Please see the README on GitHub at <https://github.com/s-zeng/sy#readme>
+description:    Please see the README on GitHub at <https://github.com/s-zeng/zl#readme>
 category:       Language
-homepage:       https://github.com/s-zeng/sy#readme
-bug-reports:    https://github.com/s-zeng/sy/issues
+homepage:       https://github.com/s-zeng/zl#readme
+bug-reports:    https://github.com/s-zeng/zl/issues
 author:         Simon Zeng
-maintainer:     constact@simonzeng.com
+maintainer:     contact@simonzeng.com
 copyright:      2020 Simon Zeng
 license:        AGPL-3
 license-file:   LICENSE
@@ -25,13 +25,14 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/s-zeng/sy
+  location: https://github.com/s-zeng/zl
 
 library
   exposed-modules:
-      Sy.Parser.Core
+      Zl.AST.Syntax
+      Zl.Parser.Core
   other-modules:
-      Paths_sy
+      Paths_zl
   hs-source-dirs:
       src
   ghc-options: -Wall -Werror -pgmL markdown-unlit
@@ -41,10 +42,10 @@ library
     , markdown-unlit
   default-language: Haskell2010
 
-executable sy-exe
+executable zl-exe
   main-is: Main.hs
   other-modules:
-      Paths_sy
+      Paths_zl
   hs-source-dirs:
       app
   ghc-options: -Wall -Werror -pgmL markdown-unlit -threaded -rtsopts -with-rtsopts=-N
@@ -52,14 +53,14 @@ executable sy-exe
       base >=4.7 && <5
     , containers
     , markdown-unlit
-    , sy
+    , zl
   default-language: Haskell2010
 
-test-suite sy-test
+test-suite zl-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
-      Paths_sy
+      Paths_zl
   hs-source-dirs:
       test
   ghc-options: -Wall -Werror -pgmL markdown-unlit -threaded -rtsopts -with-rtsopts=-N
@@ -67,5 +68,5 @@ test-suite sy-test
       base >=4.7 && <5
     , containers
     , markdown-unlit
-    , sy
+    , zl
   default-language: Haskell2010

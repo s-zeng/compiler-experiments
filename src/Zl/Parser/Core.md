@@ -11,7 +11,7 @@ instance.
 {-# LANGUAGE DeriveFunctor #-}
 {-# LANGUAGE LambdaCase #-}
 
-module Sy.Parser.Core where
+module Zl.Parser.Core where
 import Control.Applicative
 ```
 
